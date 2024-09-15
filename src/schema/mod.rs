@@ -1,3 +1,5 @@
+pub mod user;
+
 use async_graphql::{Context, Object, Result};
 use sqlx::PgPool;
 
@@ -21,7 +23,7 @@ impl QueryRoot {
 
     async fn get_all_users(&self, ctx: &Context<'_>) -> Result<Vec<User>> {
         let pool = ctx.data::<PgPool>()?;
-        let users = sqlx::query_as::<_, User>("SELECT * FROM User")
+        let users = sqlx::query_as::<_, User>("SELECT * FROM public.User")
             .fetch_all(pool)
             .await?;
         Ok(users)
